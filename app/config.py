@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     description: str = "Testing"
     jwt_secret_key: str = ""
     jwt_algorithm: str = "HS256"
-    sqlalchemy_database_uri: str = "postgresql://postgres:postgres@localhost/postgres"
+    sqlalchemy_database_uri: str = "postgresql://postgres:postgres@localhost:5432/postgres"
 
 
 def get_settings() -> Settings:

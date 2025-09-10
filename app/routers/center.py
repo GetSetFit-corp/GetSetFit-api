@@ -1,11 +1,10 @@
-from datetime import datetime
 from typing import List
 
 from fastapi import APIRouter, Depends
 
 from app.repositories.center import CentersRepository
 from app.utils.auth import get_current_user
-from database import get_database
+from app.database import get_database
 from app.models.center import CentersResponseModel, CentersRequestModel
 from app.services.center import CentersService
 from sqlalchemy.orm import Session

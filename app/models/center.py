@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import JSONB, ARRAY
 from sqlalchemy.orm import relationship
 from typing import List, Optional
 
-from database import Base
+from app.database import Base
 
 
 class Sys:

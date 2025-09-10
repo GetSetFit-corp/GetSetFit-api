@@ -1,9 +1,9 @@
-from pydantic import ConfigDict, BaseModel
+from pydantic import BaseModel
 from sqlalchemy import String, Column, Integer, Boolean, ForeignKey
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from database import Base
+from app.database import Base
 
 
 class AddressModel(BaseModel):
