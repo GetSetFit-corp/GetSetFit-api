@@ -10,6 +10,8 @@ engine = create_engine(settings.sqlalchemy_database_uri)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+Base.metadata.create_all(engine)
+
 
 def get_database() -> Generator[Session, Any, None]:
     db = SessionLocal()
