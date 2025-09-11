@@ -6,7 +6,8 @@ from sqlalchemy.dialects.postgresql import JSONB, ARRAY
 from sqlalchemy.orm import relationship
 from typing import List, Optional
 
-from database import Base
+from app.database import Base
+from app.models.user import AddressModel
 
 
 class Sys:
@@ -24,7 +25,7 @@ class Center(Base):
     __tablename__ = "centers"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    address = Column(String(255))
+    address = Column(JSONB)
     city = Column(String(255))
     description = Column(Text)
     images = Column(ARRAY(Text))
@@ -60,7 +61,7 @@ class OpeningDaysTimingByCenter(BaseModel):
 class CentersRequestModel(BaseModel):
     name: str
     description: Optional[str]
-    address: str
+    address: AddressModel
     city: str
     images: List[str]
     provided_services: List[ProvidedServiceByCenter]
@@ -73,8 +74,11 @@ class CentersResponseModel(BaseModel):
     id: int
     name: str
     description: Optional[str]
-    address: str
+    address: AddressModel
     city: str
     images: List[str]
     provided_services: List[ProvidedServiceByCenter]
     opening_days_timing: List[OpeningDaysTimingByCenter]
+
+class NearbySearchRequest(BaseModel):
+    search_range_km: float

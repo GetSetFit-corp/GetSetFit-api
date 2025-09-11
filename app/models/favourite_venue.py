@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey
 
-from database import Base
+from app.database import Base
 
 
 class FavouriteVenue(Base):
