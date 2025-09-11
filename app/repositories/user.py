@@ -25,6 +25,11 @@ class UserRepository:
             if is_correct_password_:
                 return user
             else:
-                raise HTTPException(
-                    status_code=404, detail="User name or password is incorrect"
-                )
+                raise HTTPException(status_code=404, detail="User name or password is incorrect")
+
+    def get_by_user_id(self, user_id:int):
+        user = self.db_client.query(UserModel).filter(UserModel.id == user_id).first()
+        if user is None:
+            raise HTTPException(status_code=404, detail="User not found")
+        else:
+            return user

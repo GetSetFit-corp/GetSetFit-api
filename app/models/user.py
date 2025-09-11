@@ -1,13 +1,17 @@
-from pydantic import BaseModel
-from sqlalchemy import String, Column, Integer, Boolean, ForeignKey
+from typing import Optional
+
+from pydantic import ConfigDict, BaseModel
+from sqlalchemy import String, Column, Integer, Boolean, ForeignKey, Float
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from app.database import Base
 
-
 class AddressModel(BaseModel):
     name: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    suggested_name: Optional[str] = None
 
 
 class User(Base):

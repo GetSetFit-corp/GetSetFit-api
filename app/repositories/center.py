@@ -5,7 +5,7 @@ class CentersRepository:
     def __init__(self, db_client):
         self.db_client = db_client
 
-    def create_centers(self, center: CenterModel):
+    def create_center(self, center: CenterModel) -> CenterModel:
         self.db_client.add(center)
         self.db_client.commit()
         self.db_client.refresh(center)

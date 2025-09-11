@@ -3,25 +3,16 @@ from app.models import User as UserModel
 from app.utils.auth import generate_hashed_password
 from geopy.geocoders import Nominatim
 
+from app.utils.lat_long import get_lat_long
+
 
 class UserService:
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
 
-    def get_lat_long(self, address_name: str):
-        if not address_name:
-            return None
-        geolocator = Nominatim(user_agent="my_app")
-        location = geolocator.geocode(address_name)
-        return {
-            "latitude": location.latitude,
-            "longitude": location.longitude,
-            "suggested_name": location.address,
-        }
-
     async def create_user(self, user_payload):
         address = user_payload.address
-        location: dict = self.get_lat_long(address.name)
+        location: dict = get_lat_long(address.name)
         updated_address = {
             "name": address.name,
             "latitude": location.get("latitude"),
@@ -44,3 +35,6 @@ class UserService:
 
     async def authenticate_user(self, username: str, password: str):
         return self.user_repository.get_by_username_or_email(username, password)
+
+    async def get_user_by_id(self, user_id: int):
+        return self.user_repository.get_by_user_id(user_id)

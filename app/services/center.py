@@ -2,6 +2,8 @@ from app.repositories.center import CentersRepository
 from app.models.center import Center as CenterModel, CentersRequestModel
 from datetime import datetime
 
+from app.utils.lat_long import get_lat_long
+
 
 class CentersService:
     def __init__(self, centers_repository: CentersRepository):
@@ -11,6 +13,14 @@ class CentersService:
         return self.centers_repository.get_centers_list()
 
     def insert(self, center_payload: CentersRequestModel, user):
+        address = center_payload.address
+        location: dict = get_lat_long(address.name)
+        updated_address = {
+            "name": address.name,
+            "latitude": location.get("latitude"),
+            "longitude": location.get("longitude"),
+            "suggested_name": location.get("suggested_name"),
+        }
         sys = {
             "created_by": user.get("user_id"),
             "updated_by": user.get("user_id"),
@@ -28,7 +38,7 @@ class CentersService:
         ]
 
         center_model = CenterModel(
-            address=center_payload.address,
+            address=updated_address,
             city=center_payload.city,
             name=center_payload.name,
             images=center_payload.images,
@@ -39,4 +49,4 @@ class CentersService:
             workout_type_id=center_payload.workout_type_id,
             sys=sys,
         )
-        return self.centers_repository.create_centers(center_model)
+        return self.centers_repository.create_center(center_model)
